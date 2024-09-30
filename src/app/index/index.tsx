@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useCallback } from "react";
 import {
   Image,
   Text,
@@ -14,7 +14,7 @@ import { colors } from "@/styles/colors";
 import { Categories } from "@/components/categories";
 import { Link } from "@/components/link";
 import { Option } from "@/components/option";
-import { router } from "expo-router";
+import { router, useFocusEffect } from "expo-router";
 import { categories } from "@/utils/categories";
 import { linkStorage, LinkStorage } from "@/storage/link-storage";
 
@@ -32,9 +32,11 @@ export default function Index() {
     }
   }
 
-  useEffect(() => {
-    getLinks();
-  }, [category]);
+  useFocusEffect(
+    useCallback(() => {
+      getLinks();
+    }, [])
+  );
 
   return (
     <View style={styles.container}>
