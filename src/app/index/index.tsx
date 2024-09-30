@@ -5,6 +5,7 @@ import { colors } from "@/styles/colors";
 import { Category } from "@/components/category";
 import { categories } from "@/utils/categories";
 import { Categories } from "@/components/categories";
+import { Link } from "@/components/link";
 
 export default function Index() {
   return (
@@ -18,6 +19,8 @@ export default function Index() {
       </View>
 
       <Categories />
+
+      <Link name="Teste" url="TEste" onDetails={() => console.log("Clicou!")} />
     </View>
   );
 }
