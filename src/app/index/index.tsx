@@ -19,6 +19,8 @@ import { categories } from "@/utils/categories";
 import { linkStorage, LinkStorage } from "@/storage/link-storage";
 
 export default function Index() {
+  const [showModal, setShowModal] = useState<boolean>(false);
+  const [link, setLink] = useState<LinkStorage>({} as LinkStorage);
   const [links, setLinks] = useState<LinkStorage[]>([]);
   const [category, setCategory] = useState<string>(categories[0].name);
 
@@ -33,6 +35,12 @@ export default function Index() {
       Alert.alert("Erro", "Não foi possível carregar os links");
       console.error(error);
     }
+  }
+
+  function handleDetails(selected: LinkStorage) {
+    setShowModal(true);
+
+    setLink(selected);
   }
 
   useFocusEffect(
@@ -60,7 +68,7 @@ export default function Index() {
           <Link
             name={item.name}
             url={item.url}
-            onDetails={() => console.log(`Clicou no item ${item.id}`)}
+            onDetails={() => handleDetails(item)}
           />
         )}
         style={styles.links}
@@ -68,22 +76,22 @@ export default function Index() {
         showsVerticalScrollIndicator={false}
       />
 
-      <Modal transparent visible={false}>
+      <Modal transparent visible={showModal} animationType="slide">
         <View style={styles.modal}>
           <View style={styles.modalContent}>
             <View style={styles.modalHeader}>
               <Text style={styles.modalCategory}>Curso</Text>
-              <TouchableOpacity>
+              <TouchableOpacity onPress={() => setShowModal(false)}>
                 <MaterialIcons
                   name="close"
-                  size={20}
+                  size={24}
                   color={colors.gray[400]}
                 />
               </TouchableOpacity>
             </View>
 
-            <Text style={styles.modalLinkName}>Morona</Text>
-            <Text style={styles.modalUrl}>Url</Text>
+            <Text style={styles.modalLinkName}>{link.name}</Text>
+            <Text style={styles.modalUrl}>{link.url}</Text>
 
             <View style={styles.modalFooter}>
               <Option name="Excluir" icon="delete" variant="secondary" />
