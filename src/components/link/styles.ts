@@ -18,5 +18,5 @@ export const styles = StyleSheet.create({
     url: {
         color: colors.gray[400],
         fontSize: 14,
-    }
+    },
 });
