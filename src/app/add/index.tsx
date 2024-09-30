@@ -10,7 +10,7 @@ import { Button } from "@/components/button";
 import { linkStorage } from "@/storage/link-storage";
 
 export default function Add() {
-  const [category, setCategory] = useState<string>("Curso");
+  const [category, setCategory] = useState<string>("");
   const [name, setName] = useState<string>("");
   const [url, setUrl] = useState<string>("");
 
