@@ -7,23 +7,39 @@ import { router } from "expo-router";
 import { Categories } from "@/components/categories";
 import { Input } from "@/components/input";
 import { Button } from "@/components/button";
+import { linkStorage } from "@/storage/link-storage";
 
 export default function Add() {
   const [category, setCategory] = useState<string>("Curso");
   const [name, setName] = useState<string>("");
   const [url, setUrl] = useState<string>("");
 
-  function handleAdd() {
-    if (!category) {
-      return Alert.alert("Category", "Selecione uma categoria");
-    }
+  async function handleAdd() {
+    try {
+      if (!category) {
+        return Alert.alert("Category", "Selecione uma categoria");
+      }
 
-    if (!name.trim()) {
-      return Alert.alert("Nome", "Insira um nome");
-    }
+      if (!name.trim()) {
+        return Alert.alert("Nome", "Insira um nome");
+      }
 
-    if (!url.trim()) {
-      return Alert.alert("URL", "Insira uma URL");
+      if (!url.trim()) {
+        return Alert.alert("URL", "Insira uma URL");
+      }
+
+      await linkStorage.save({
+        id: new Date().getTime().toString(),
+        name,
+        url,
+        category,
+      });
+
+      const data = await linkStorage.get();
+      console.log(data);
+    } catch (error) {
+      Alert.alert("Erro", "Não foi possível salvar o link");
+      console.error(error);
     }
   }
 
